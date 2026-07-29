@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title> BMI Calculator</title>
+		<style>
+			*{
+				font-size:40px;
+				text-align:center;
+			}
+			body{
+				background-color: linen;
+			}
+		</style>
+	</head>
+	<body>	
+		<h1> BMI Calculator</h1>
+		<form onsubmit="check(event)">
+			<input type="number"
+			id="weight"
+			step="0.01"
+			placeholder="Enter Weight in kgs"
+			/>
+			<br></br>
+			<input type="number"
+			id="height"
+			step="0.01"
+			placeholder="Enter height in meters"
+			/>
+			<br></br>
+			<input type="submit"
+			value="Find BMI"
+			/>
+		</form>
+			<h2 id="msg"></h2>
+		<script>
+			function check(event){
+				event.preventDefault();
+				let weight = document.getElementById("weight");
+				let height = document.getElementById("height");
+				let msg = document.getElementById("msg");
+		
+				if(weight.value === ""){
+					alert("Please Enter Weight");
+					msg.textContent="";
+					num.focus();
+					return;
+				}
+				let w = parseFloat(weight.value);
+				if(w<1){
+					alert("Please Enter correct weight");
+					msg.textContent="";
+					weight.focus();
+					return;
+				}
+				if(height.value === ""){
+					alert("Please Enter height");
+					msg.textContent="";
+					num.focus();
+					return;
+				}
+				let h = parseFloat(height.value);
+				if(h<1){
+					alert("Please Enter correct height");
+					msg.textContent="";
+					weight.focus();
+					return;
+				}
+				
+				let url = "http://localhost:8080/bmi?weight=" + w + "&height=" +h;
+				
+				fetch(url)
+				.then(res => res.text())
+				.then(data => {
+					msg.textContent=data;
+				})
+			
+				.catch(err=>{
+					msg.textContent="issue" + err;
+				});
+			}
+		</script>
+	</body>
+</html>
