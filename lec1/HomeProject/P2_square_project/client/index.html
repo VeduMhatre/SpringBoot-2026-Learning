@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title> Square Finder Application </title>
+		<style>
+			*{
+				font-size: 40px;
+				text-align: center;	
+			}
+			body{
+				background-color: azure;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Square Finder Application</h1>
+		<form onsubmit="square(event)">
+			<input type="number"
+			id = "num"
+			step="0.01"
+			placeholder="Enter Number"/>
+			<br/><br/>
+			<input type="submit"
+			value = "Find Square of number"/> 
+		</form>
+			<h2 id="msg"></h2>
+		<script>
+			function square(event){
+				event.preventDefault();
+				let num = document.getElementById("num");
+				let msg = document.getElementById("msg");
+				
+				if(num.value === ""){
+					alert("Enter Number");
+					msg.textContent = "";
+					num.focus();
+					return;
+				}
+				
+				let n = parseFloat(num.value);	
+				let url = "http://localhost:8080/square?num="+n;
+			
+				fetch(url)
+				.then(res => res.text())
+				.then(data => {
+					msg.textContent=data;
+				})
+			
+				.catch(err => {
+					msg.textContent="issue" + err;
+				});
+			}
+		</script>
+	</body>
+</html>

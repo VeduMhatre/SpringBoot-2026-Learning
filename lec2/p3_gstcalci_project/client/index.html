@@ -1,0 +1,89 @@
+<html>
+	<head>
+		<title> GST Calculator Application </title>
+		<style>	
+			*{
+				font-size: 40px;
+				text-align: center;
+			}
+			body{
+				background-color: lightyellow;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<h1> GST Calculator </h1>
+		<form onsubmit="find(event)">	
+			<input type="number"
+			step="any"
+			id="amt"
+			placeholder="Enter Amount"/>
+		<br/><br/>
+			<input type="number"
+			step="any"
+			id="gst"
+			placeholder="Enter GST Rate"/>
+		<br/><br/>
+			<input type="submit"
+			value="Find Final Amount"/>	
+		</form>
+		<h2 id="msg"></h2>
+		
+		<script>
+			function find(event){
+				event.preventDefault();
+				let amt = document.getElementById("amt");
+				let gst = document.getElementById("gst");
+				let msg = document.getElementById("msg");
+
+				if(amt.value === ""){
+					alert("Please Enter Amount");
+					msg.textContent="";
+					amt.focus();
+					return;
+				}
+				if(parseFloat(amt.value) < 1){
+					alert("Amount Should not be less than 1");
+					msg.textContent="";
+					amt.focus();
+					return;
+				}
+				if(gst.value === ""){
+					alert("Enter GST Rate");
+					msg.textContent="";
+					gst.focus();
+					return;
+				}
+				if(parseFloat(gst.value) < 1){
+					alert("GST Should not be less than 1");
+					msg.textContent="";
+					gst.focus();
+					return;
+				}
+				
+				let url = "http://localhost:8080/gstcalci";
+				
+				let data = {
+					amt : parseFloat(amt.value),
+					gst : parseFloat(gst.value)
+				};
+	
+				let options = {
+					method : "POST",
+					headers : {"Content-Type" : "application/json"},
+					body : JSON.stringify(data)
+				};
+				
+				fetch(url,options)
+				.then(res => res.json())
+				.then(data => {
+					msg.textContent = data["msg"];
+				})
+				.catch(err => {
+					msg.textContent = "Issue " + err;
+				});
+			}
+		</script>
+	</body>
+</html>

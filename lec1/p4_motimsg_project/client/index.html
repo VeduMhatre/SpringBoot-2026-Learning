@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title> Motivational Message App</title>
+		<style>
+			*{
+				font-size:40px;
+				text-align:center;
+			}
+			body{
+				background-color: azure
+			}
+		</style>
+	</head>
+	<body>	
+		<h1> Motivation Message App</h1>
+		<form onsubmit="motimsg(event)">
+			<input type="submit"
+			value="Show Message"
+			/>
+		</form>
+			<h2 id="msg"></h2>
+		<script>
+			function motimsg(event){
+				event.preventDefault();
+				let url = "http://localhost:8080/motimsg";
+	
+				fetch(url)
+				.then(res => res.text())
+				.then(data => {
+					msg.textContent = data;
+				})
+				.catch(err => {
+					msg.textContent = "issue" + err;
+				});
+			}
+		</script>
+	</body>
+</html>

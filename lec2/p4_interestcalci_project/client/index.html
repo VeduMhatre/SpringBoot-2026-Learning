@@ -1,0 +1,149 @@
+<html>
+	<head>
+		<title> Interest Calculator Application</title>
+		<style>
+			*{
+				font-size: 35px;
+				text-align: center;
+			}
+			body{
+				background-color: lavender;
+			}
+		</style>
+	</head>
+	<body>
+		<h1> Interest Calculator Application</h1>
+		<form onsubmit="find(event)">
+			<input type = "number"
+			id = "principal"
+			step="any"
+			placeholder = "Enter Principal Amount"/>
+
+			<br/><br/>
+		
+			<input type = "number"
+			id = "roi"
+			step="any"
+			placeholder = "Enter Rate of Interest"/>
+			
+			</br></br>			
+			
+			<input type = "number"
+			id = "time"
+			step="0.1"
+			placeholder = "Enter Time in Years"/>
+			
+			</br></br>
+			
+			<label> Select one </label>			
+			
+			<input type = "radio"
+				value = "si"
+				id = "si"
+				name = "choice" checked=true/> Simple Interest
+				
+	
+			<input type = "radio"
+				value="ci"
+				id = "ci"
+				name = "choice"/>Compound Interest
+			</br></br>
+
+			<input type = "submit"
+				value="Find Interest"/>
+		</form>
+		<h2 id="msg"></h2>
+		
+		<script>
+			function find(event){
+				event.preventDefault();
+				let principal = document.getElementById("principal");
+				let roi = document.getElementById("roi");
+				let time = document.getElementById("time");
+				let si = document.getElementById("si");
+				let ci = document.getElementById("ci");
+				let msg = document.getElementById("msg");
+
+				//amt should not be null
+				if(principal.value === ""){
+					alert("Please Enter Principal Amount");
+					msg.textContent = "";
+					principal.focus();
+					return;
+				}
+
+				//amt should not be lesser than 1000
+				if(parseFloat(principal.value) < 1000){
+					alert("Principal Amount Should not be less than 1000");
+					msg.textContent = "";
+					principal.focus();
+					return;
+				}
+
+				//roi shud not be null
+				if(roi.value === ""){
+					alert("Please Enter Rate Of Interest");
+					msg.textContent = "";
+					roi.focus();
+					return;
+				}
+
+				//roi shoud not be less than 3
+				if(parseFloat(roi.value) < 3){
+					alert("ROI should not be less than 3%");
+					msg.textContent = "";
+					roi.focus();
+					return;
+				}
+				
+				// time should not be null
+				if(time.value === ""){
+					alert("Please Enter Time");
+					msg.textContent = "";
+					time.focus();
+					return;	
+				}
+
+				//time should be atleast greater than 1 year
+				if(parseFloat(time.value) < 1){
+					alert("Time Should not be less than 1 year");
+					msg.textContent = "";
+					time.focus();
+					return;
+				}
+				
+				let choice = "";
+				if(si.checked){
+					choice = "si";
+				}
+				else{
+					choice = "ci";
+				}
+
+				let url = "http://localhost:8080/interest";
+	
+				let data = {
+					principal : Number(principal.value),
+					roi : Number(roi.value),
+					time : Number(time.value),
+					choice : choice
+				};
+				
+				let options = {
+					method : "POST",
+					headers : {"Content-Type" : "application/json"},
+					body : JSON.stringify(data)
+				};				
+
+				fetch(url,options)
+				.then(res => res.json())
+				.then(data => {
+					msg.textContent = data["msg"];
+				})
+				.catch(err => {
+					msg.textContent = "Issue: " + err;	
+				});
+			}
+		</script>
+	</body>
+</html>
