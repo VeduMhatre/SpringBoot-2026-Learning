@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Train Problem Computation</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+
+	<body>
+		<header class="topbar">
+			<a class="brand" href="/">
+				<span class="brand-icon">R</span>
+				<span>Train<span class="brand-accent">Problem</span></span>
+			</a>
+
+			<span class="status">
+				<span class="status-dot"></span>
+				Railway Calculator
+			</span>
+		</header>
+
+		<main class="container">
+			<section class="intro">
+				<p class="subtitle">
+					Calculate train lengths, platform lengths, relative speeds,
+					crossing times and more.
+				</p>
+			</section>
+
+			<section class="calculator-card">
+				<div class="card-heading">
+					<div>
+						<p class="eyebrow">CALCULATOR</p>
+						<h2 id="calculatorTitle">Train Length</h2>
+					</div>
+
+					<span class="calculator-number" id="calculatorNumber">01 / 06</span>
+				</div>
+
+				<label for="calculator">Choose a calculation</label>
+
+				<select id="calculator">
+					<option value="trainlength">Train Length</option>
+					<option value="platformlength">Platform Length</option>
+					<option value="relativespeed">Relative Speed</option>
+					<option value="traincrossingtime">Train Crossing Time</option>
+					<option value="oppositetrainmeet">Meeting Speed Ratio</option>
+					<option value="trainspeed">Train Speed</option>
+				</select>
+
+				<form id="calculatorForm">
+					<div id="fields"></div>
+
+					<button type="submit">Calculate result</button>
+				</form>
+
+				<div id="result" hidden>
+					<p id="resultText"></p>
+				</div>
+			</section>
+		</main>
+
+		<script src="script.js"></script>
+	</body>
+</html>
